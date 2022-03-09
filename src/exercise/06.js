@@ -5,6 +5,19 @@ import * as React from 'react'
 
 function UsernameForm({onSubmitUsername}) {
   // 🐨 add a submit event handler here (`handleSubmit`).
+  const inputEl = React.useRef(null)
+  const [username, setUsername] = React.useState('')
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    let username = inputEl.current.value
+    onSubmitUsername(username)
+  }
+
+  function handleChange(e) {
+    const val = e.target.value
+    setUsername(val.toLowerCase())
+  }
   // 💰 Make sure to accept the `event` as an argument and call
   // `event.preventDefault()` to prevent the default behavior of form submit
   // events (which refreshes the page).
@@ -20,10 +33,16 @@ function UsernameForm({onSubmitUsername}) {
   // 🐨 make sure to associate the label to the input.
   // to do so, set the value of 'htmlFor' prop of the label to the id of input
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label>Username:</label>
-        <input type="text" />
+        <label htmlFor="usernameInput">Username:</label>
+        <input
+          ref={inputEl}
+          type="text"
+          id="usernameInput"
+          onChange={handleChange}
+          value={username}
+        />
       </div>
       <button type="submit">Submit</button>
     </form>
